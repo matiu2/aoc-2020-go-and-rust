@@ -1,17 +1,22 @@
-use std::fs::read_to_string;
+use std::{collections::HashSet, fs::read_to_string};
 
 use anyhow::Result;
-use itertools::Itertools;
 
 fn day1(input: &str) -> Result<Option<(usize, usize)>> {
-    let vals: std::result::Result<Vec<usize>, _> =
+    let vals: std::result::Result<HashSet<usize>, _> =
         input.lines().map(|l| l.parse::<usize>()).collect();
     let vals = vals?;
     Ok(vals
         .iter()
-        .cartesian_product(vals.iter())
-        .find(|(&a, &b)| a + b == 2020)
-        .map(|(&a, &b)| (a, b)))
+        .flat_map(|&a| {
+            let b = 2020 - a;
+            if vals.contains(&b) {
+                return Some((a, b));
+            } else {
+                return None;
+            }
+        })
+        .next())
 }
 
 fn main() -> Result<()> {
