@@ -28,5 +28,5 @@ func day1(input []byte) (int, int, error) {
 			return x, y, nil
 		}
 	}
-	return 0, 0, errors.New("Couldn't find a pair that matched")
+	return 0, 0, errors.New("couldn't find a pair that matched")
 }
